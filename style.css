@@ -40,7 +40,7 @@ textarea, svg {
 
 svg {
   /* bl.ocks.org defaults to 960px by 500px */
-  width: 900px;
+  width: 960px;
   height: 500px;
 
   background-color: white;

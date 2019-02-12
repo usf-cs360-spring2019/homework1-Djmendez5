@@ -108,7 +108,6 @@ console.log(data2[0]["Incident Date"]);
 let letterScale
   //for(var l=2; l<data2.length;l++){
    letterScale = d3.scaleBand()
-     //.domain([data2[l]["Incident Category"], data2[l-1]["Incident Category"],  data2[l-2]["Incident Category"],data2[l]["Incident Category"]]) // all letters (not using the count here)
      .domain(["Assault", "Burglary", "Arson","Case Closure","Civil Sidewalks","Courtesy Report", "Disorderly Conduct","Drug Offense","Drug Violantion","Embezzlement", "Family Offense", "Fire Report","Forgery And Counterfeiting", "Fraud","Gambling","Homocide","Juvenile Offenses", "Larceny Theft","Liquor Laws", "Lost Property","Malicious Mischief","Miscellaneous Investigation","Missing Person","Motor Vehicle Theft?","Motor Vehicle Theft","Non-Criminal", "Offences Against The Family And Children", "Other","Other Miscellaneous","Other Offenses","Prostitution", "Rape", "Recovered Vehicle", "Robbery","Sex Offense", "Stolen Property","Suicide", "Suspecious", "Suspicious Occ","Traffic Collision", "Traffic Violation Arrest", "Vandalism","Vehicle Impounded","Vehicle Misplaced","Warrant","Weapons Carrying Etc", "Weapons Offense", "Motor Vehicle Theft?", "Rape","Drug Violation", "Suicide","Homocide", "Suspicious", "Vehicle Impounded"])
     .rangeRound([0, plotWidth])
     .paddingInner(0.1); // space between bars
