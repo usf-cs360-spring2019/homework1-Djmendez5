@@ -2,10 +2,10 @@ var max
 d3.csv("police.csv", function(row){
   //console.log(row);
 return row;
-}).then(function(data2){
-  console.log(data2.length);
+}).then(function(data){
+  //console.log(data2.length);
   //for(var i =0; i <data2.length; i++){
-console.log(data2[0]["Incident Date"]);
+
 //return data2;
 //SET MAX
 
@@ -26,8 +26,8 @@ console.log(data2[0]["Incident Date"]);
    * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for
    */
    var category
-  for (let i = 0; i < data2.length; i++) {
-  category = data2[i]["Incident Category"];
+  for (let i = 0; i < data.length; i++) {
+  category = data[i]["Incident Day of Week"];
     //console.log(category);
     if (count.has(category)) {
       count.set(category, count.get(category) + 1);
@@ -35,8 +35,7 @@ console.log(data2[0]["Incident Date"]);
     else {
       count.set(category, 1);
     }
-
-    // check if we have seen this letter before
+//    // check if we have seen this letter before
 
   }
 
@@ -104,11 +103,11 @@ console.log(data2[0]["Incident Date"]);
    * https://github.com/d3/d3-scale#band-scales
    */
    //var cat= "category" + "gory"
-   var cat = data2[8]["Incident Category"]
+   var cat = data[8]["Incident Category"]
 let letterScale
   //for(var l=2; l<data2.length;l++){
    letterScale = d3.scaleBand()
-     .domain(["Assault", "Burglary", "Arson","Case Closure","Civil Sidewalks","Courtesy Report", "Disorderly Conduct","Drug Offense","Drug Violantion","Embezzlement", "Family Offense", "Fire Report","Forgery And Counterfeiting", "Fraud","Gambling","Homocide","Juvenile Offenses", "Larceny Theft","Liquor Laws", "Lost Property","Malicious Mischief","Miscellaneous Investigation","Missing Person","Motor Vehicle Theft?","Motor Vehicle Theft","Non-Criminal", "Offences Against The Family And Children", "Other","Other Miscellaneous","Other Offenses","Prostitution", "Rape", "Recovered Vehicle", "Robbery","Sex Offense", "Stolen Property","Suicide", "Suspecious", "Suspicious Occ","Traffic Collision", "Traffic Violation Arrest", "Vandalism","Vehicle Impounded","Vehicle Misplaced","Warrant","Weapons Carrying Etc", "Weapons Offense", "Motor Vehicle Theft?", "Rape","Drug Violation", "Suicide","Homocide", "Suspicious", "Vehicle Impounded"])
+     .domain(["Monday", "Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"])
     .rangeRound([0, plotWidth])
     .paddingInner(0.1); // space between bars
 //console.log(data2[l]["Incident Category"])
@@ -198,17 +197,22 @@ let letterScale
 
     .attr("fill", function(d) {
 
-    if (d.key==="Assault" || d.key=== "Arson" || d.key==="Burglary"|| d.key==="Family Offense" || d.key==="Homocide" || d.key==="Rape" || d.key==="Robbery" || d.key==="Sex Offense" || d.key==="Warrant" || d.key==="Weapons Offense" ) { //Red
+    if (d.key==="Tuesday" ) { //Red
       return "red";
-    } else if(d.key==="Non-Criminal"){
+    } else if(d.key==="Sunday"){
       return "blue"
-    }else if(d.key==="Case Closure" || d.key==="Civil Sidewalks" || d.key==="Courtesy Report" || d.key==="Embezzlement" || d.key==="Fraud" || d.key==="Liquor Laws" || d.key==="Lost Property" || d.key==="Miscellaneous Investigation" || d.key==="Missing Person" || d.key==="Other" || d.key==="Other Miscellaneous" || d.key==="Other Offenses" || d.key==="Recovered Vehicle" || d.key==="Suicide" || d.key==="Traffic Collision" || d.key==="Traffic Violation Arrest" || d.key==="Vehicle Impounded") {  //green
+    }else if(d.key==="Thursday") {  //green
       return "green";
-    } else if (d.key === "Drug Offenses" || d.key==="Disordely Conduct" || d.key==="Drug Violation" || "Fire Report" || "Forgery And Counterfeiting" || d.key==="Larceny Theft" || d.key==="Malicious Mischief" || d.key==="Motor Vehicle Theft" || d.key==="Motor Vehicle Theft?" || d.key==="Offenses Against The Family And Children" || d.key==="Prostitution" || d.key==="Stolen Property" || d.key==="Suspecious" || d.key==="Suspecious Occ" || d.key==="Vandalism"|| d.key==="Weapons Carrying Etc") { //Orange
+    } else if (d.key === "Monday") { //Orange
       return "orange";
 
-    }
+    }else if(d.key==="Saturday"){
     return "pink";
+  }else if(d.key==="Friday"){
+    return "Yellow";
+  }else{
+    return "BurlyWood";
+  }
   })
 
   //////////////////////////////////////
@@ -239,19 +243,15 @@ let letterScale
   // for bars that already existed, we must use the update selection
   // and then update their height accordingly
   // we use transitions for this to avoid change blindness
-svg.selectAll("text")
-.data(data2)
-.enter()
-.append("text")
-.text(function(d){
-  return d;
-})
- //.attr("text-anchor", "middle")
- .attr({
-   x: function(d,i){ return (plotWidth/data2.length)*i + (plotWidth/data2.length -5)/2;},
-   y: function(d,i){return plotHeight-d;},
- });
+
   //////////////////////////////////////
+  svg.append("text")
+          .attr("x", (plotWidth / 2))
+          .attr("y", 0 - (margin.top / 2))
+          .attr("text-anchor", "middle")
+          .style("font-size", "16px")
+          .style("text-decoration", "underline")
+          .text("Value vs Date Graph");
 
   bars.transition()
     .attr("y", function(d) { return countScale(d.value); })
@@ -259,6 +259,7 @@ svg.selectAll("text")
 
   // what about letters that disappeared?
   // we use the exit selection for those to remove the bars
+
   bars.exit()
     .each(function(d, i, nodes) {
       console.log("Removing bar for:", d.key);
