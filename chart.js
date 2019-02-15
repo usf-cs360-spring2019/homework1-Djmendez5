@@ -65,8 +65,8 @@ console.log(data2[0]["Incident Date"]);
    */
   let margin = {
     top:    15,
-    right:  50, // leave space for y-axis
-    bottom: 180, // leave space for x-axis
+    right:  100, // leave space for y-axis
+    bottom: 330, // leave space for x-axis
     left:   10
   };
 
@@ -251,7 +251,56 @@ svg.selectAll("text")
    x: function(d,i){ return (plotWidth/data2.length)*i + (plotWidth/data2.length -5)/2;},
    y: function(d,i){return plotHeight-d;},
  });
+ svg.append("text")
+        .attr("x", (plotWidth/ 2))
+        .attr("y", 50 - (1 / 2))
+        .attr("text-anchor", "middle")
+        .style("font-size", "12px")
+        .text("Incident Category");
   //////////////////////////////////////
+  svg.append("text")
+         .attr("x", (1/ 10))
+         .attr("y", 10 - (1 / 2))
+         .attr("dy", ".35em")
+         .attr("transform", "rotate(-90)")
+
+         .attr("text-anchor", "end")
+         //.attr("transform", "rotate(-90)")
+         .style("font-size", "12px")
+         .text("count of Number of Records");
+          //.attr("transform", "rotate(-65)");
+          svg.append("text")
+                 .attr("x", (plotWidth/ 2))
+                 .attr("y", 20 - (1 / 2))
+                 .attr("text-anchor", "middle")
+                 .style("font-size", "16px")
+                 .text("Number of Incidents per Incident Category");
+
+                 svg.append("text")
+                        .attr("x", (1/ 10))
+                        .attr("y", 450 - (1 / 2))
+                        .attr("text-anchor", "start")
+                        .style("font-size", "12px")
+                        .text("David Mendez: Count of Number of Records for each Incident Category.  Color shows  shows the most violent crimes (red)");
+
+                        svg.append("text")
+                               .attr("x", (1/ 10))
+                               .attr("y", 469 - (1 / 2))
+                               .attr("text-anchor", "start")
+                               .style("font-size", "12px")
+                               .text("to non violent (blue).  The marks are labeled by count of Number of Records. We can see which crimes were commited how many times in SF");
+
+      //.attr("data-legend",function(d) { return d.name})
+
+
+                  legend = svg.append("g")
+                    .attr("class","legend")
+                    .attr("transform","translate(50,30)")
+                    .style("font-size","12px")
+                    //.call(d3.legend)
+
+
+
 
   bars.transition()
     .attr("y", function(d) { return countScale(d.value); })
